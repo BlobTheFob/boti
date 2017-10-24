@@ -22,15 +22,16 @@ yuno.addCommand("ychan","USAGE: $chan loli ass <those are the tags.",function(ms
 				msg.channel.createMessage({embed:{
 					color:3447003,
 					author: {
-					name: "Yuno Chan",
-					icon_url: "https://cdn.discordapp.com/avatars/276743581199237121/3038ae9c8da05836d9eecfb05f3886f4.jpg"
+					name: yuno.bot.user.username,
+					icon_url: yuno.bot.user.avatarURL
 					},
-					description:"**Score**: "+post.score+"\n**Rating**: "+post.rating+"\n**Tags**: \n```"+post.tags+"```",
+					//description:"**Score**: "+post.score+"\n**Rating**: "+post.rating+"\n**Tags**: \n```"+post.tags+"```",
 					fields:[
+						{value:"**Score**: "+post.score+" | **Rating**: "+post.rating+" | **Tags**: \n```"+post.tags+"```"}
 						{name:"Image",value:"[Full Sized]("+encodeURI(post.file_url)+")"}
 					],
 					image:{
-						url:"http:"+post.sample_url
+						url:post.sample_url
 					}
 				}})
 				}else{
