@@ -10,6 +10,13 @@
   "license": "ISC",
   "dependencies": {
     "eris": "^0.8.0",
-    "node-emoji": "^1.8.1"
+    "node-emoji": "^1.8.1",
+    "request": "^2.83.0",
+    "util":"^0.10.3",
+    "fs":"^2.2.2",
+    "path":"^0.12.7",
+    "require-reload":"^0.2.2",
+    "winston":"^2.4.0",
+    "xml2js":"^0.4.19"
   }
 }
