@@ -27,7 +27,7 @@ yuno.addCommand("ychan","USAGE: $chan loli ass <those are the tags.",function(ms
 					},
 					//description:"**Score**: "+post.score+"\n**Rating**: "+post.rating+"\n**Tags**: \n```"+post.tags+"```",
 					fields:[
-						{value:"**Score**: "+post.score+" | **Rating**: "+post.rating+" | **Tags**: \n```"+post.tags+"```"}
+						{value:"**Score**: "+post.score+" | **Rating**: "+post.rating+" | **Tags**: \n```"+post.tags+"```"},
 						{name:"Image",value:"[Full Sized]("+encodeURI(post.file_url)+")"}
 					],
 					image:{
@@ -36,7 +36,7 @@ yuno.addCommand("ychan","USAGE: $chan loli ass <those are the tags.",function(ms
 					yuno.bot.user.startTyping()
 				}})
 				}else{
-					yuno.bot.user.stopTyping
+					yuno.bot.user.stopTyping(),
 					msg.channel.createMessage("Nothing found. Try using _ for multi word tags as space seperates tags.")
 				}
 			}
