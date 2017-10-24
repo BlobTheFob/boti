@@ -6,10 +6,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "engines": {
+"node": "^6.11.4"
+},
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "node":"^6.11.4",
     "eris": "^0.8.0",
     "node-emoji": "^1.8.1",
     "request": "^2.83.0",
