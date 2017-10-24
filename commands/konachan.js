@@ -33,8 +33,10 @@ yuno.addCommand("ychan","USAGE: $chan loli ass <those are the tags.",function(ms
 					image:{
 						url:post.sample_url
 					}
+					yuno.bot.user.startTyping()
 				}})
 				}else{
+					yuno.bot.user.stopTyping
 					msg.channel.createMessage("Nothing found. Try using _ for multi word tags as space seperates tags.")
 				}
 			}
