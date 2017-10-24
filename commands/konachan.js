@@ -27,7 +27,7 @@ yuno.addCommand("ychan","USAGE: $chan loli ass <those are the tags.",function(ms
 					},
 					//description:"**Score**: "+post.score+"\n**Rating**: "+post.rating+"\n**Tags**: \n```"+post.tags+"```",
 					fields:[
-						{value:"**Score**: "+post.score+" | **Rating**: "+post.rating+" | **Tags**: \n```"+post.tags+"```"},
+						//{value:"**Score**: "+post.score+" | **Rating**: "+post.rating+" | **Tags**: \n```"+post.tags+"```"},
 						{name:"Image",value:"[Full Sized]("+encodeURI(post.file_url)+")"}
 					],
 					image:{
