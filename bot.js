@@ -3,7 +3,7 @@ var config = require("./config.json");
 var whitelist = require("./whitelist.json");
 global.yuno = {};
 const yuno = global.yuno
-yuno.bot = new Eris(config.token);
+yuno.bot = new Eris(process.env.BOT_TOKEN);
 yuno.prefix = "$";
 yuno.oid = config.ownerid;
 
