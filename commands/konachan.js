@@ -32,7 +32,7 @@ yuno.addCommand("ychan","USAGE: $chan loli ass <those are the tags.",function(ms
 					],
 					image:{
 						url:post.sample_url
-					}
+					},
 					yuno.bot.user.startTyping()
 				}})
 				}else{
