@@ -146,7 +146,7 @@ yuno.addCommand("pcolor","Set your profile color",function(msg,args){
 	}
 });
 
-let bg_url = "https://assets.xn--6s8h.cf/assets/yuno/backgrounds/";
+let bg_url = "https://blobthefob.github.io/boti/assets/backgrounds/";
 let backgrounds = [
 	"anime_1",
 	"anime_2",
