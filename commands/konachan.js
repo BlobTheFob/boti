@@ -13,7 +13,7 @@ yuno.addCommand("ychan","USAGE: $chan loli ass <those are the tags.",function(ms
 		}
     var site = "http://safebooru.org/index.php?page=dapi&s=post&q=index&limit=75&tags="
 		//request.get("http://konachan.net/post.xml?limit=19&tags="+tagss+"%20rating:safe",{headers:{"User-Agent":"YunoChan/8.0 (Yuno)"}},function(e,res,body){
-      request.get("http://safebooru.org/index.php?page=dapi&s=post&q=index&limit=75&tags="+tagss+"%20rating:safe",{headers:{"User-Agent":"YunoChan/8.0 (Yuno)"}},function(e,res,body){
+      request.get("http://safebooru.org/index.php?page=dapi&s=post&q=index&limit=75&tags="+tagss,{headers:{"User-Agent":"YunoChan/8.0 (Yuno)"}},function(e,res,body){
       if(!e && res.statusCode == 200){
 				let data;
 				xml2js.parseString(body,(err,d)=>{data=d})
