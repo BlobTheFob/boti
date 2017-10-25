@@ -25,13 +25,13 @@ yuno.addCommand("ychan","USAGE: $chan loli ass <those are the tags.",function(ms
 					name: yuno.bot.user.username,
 					icon_url: yuno.bot.user.avatarURL
 					},
-					//description:"**Score**: "+post.score+"\n**Rating**: "+post.rating+"\n**Tags**: \n```"+post.tags+"```",
+					description:"**Score**: "+post.score+"\n**Rating**: "+post.rating+"\n**Tags**: \n```"+post.tags+"```",
 					fields:[
 						//{value:"**Score**: "+post.score+" | **Rating**: "+post.rating+" | **Tags**: \n```"+post.tags+"```"},
 						{name:"Image",value:"[Full Sized]("+encodeURI(post.file_url)+")"}
 					],
 					image:{
-						url:post.sample_url
+						url:"http:"+post.sample_url
 					}
 					//yuno.bot.user.startTyping()
 				}})
