@@ -1,10 +1,10 @@
-var flexbot = global.flexbot;
+var yuno = global.yuno;
 var emoji = require("node-emoji");
 let Jimp = require("jimp");
 
-flexbot.userdata = flexbot.userdata ? flexbot.userdata : require(__dirname+"/../data/udata.json");
+yuno.userdata = yuno.userdata ? yuno.userdata : require(__dirname+"/../data/udata.json");
 
-let udata = flexbot.userdata;
+let udata = yuno.userdata;
 
 let updateData = function(msg){
 	if(msg.author.bot) return;
@@ -22,7 +22,7 @@ let updateData = function(msg){
 		ud.level++;
 
 		if(ud.lvlnotif === true){
-			flexbot.bot.getDMChannel(msg.author.id)
+			yuno.bot.getDMChannel(msg.author.id)
 			.then(c=>{
 				c.createMessage(emoji.get("star")+" You are now **level "+ud.level+"**");
 			});
@@ -34,16 +34,16 @@ let updateData = function(msg){
 
 let saveData = function(){
 	require("fs").writeFileSync(__dirname+"/../data/udata.json",JSON.stringify(udata));
-	flexbot.bot.createMessage(flexbot.logid,emoji.get("floppy_disk")+" Saved userdata.");
+	yuno.bot.createMessage(yuno.logid,emoji.get("floppy_disk")+" Saved userdata.");
 }
 
-if(flexbot.hook_udata) flexbot.bot.removeListener("messageCreate",flexbot.hook_udata);
+if(yuno.hook_udata) yuno.bot.removeListener("messageCreate",yuno.hook_udata);
 
-flexbot.hook_udata = updateData;
-flexbot.bot.on("messageCreate",flexbot.hook_udata);
+yuno.hook_udata = updateData;
+yuno.bot.on("messageCreate",yuno.hook_udata);
 
-if(flexbot.udata_timer) clearInterval(flexbot.udata_timer);
-flexbot.udata_timer = setInterval(saveData,3600000);
+if(yuno.udata_timer) clearInterval(yuno.udata_timer);
+yuno.udata_timer = setInterval(saveData,3600000);
 
 let custom_bg = {
 	"151344471957569536":"kaos.png",
@@ -54,17 +54,17 @@ let custom_bg = {
 }
 
 let custom_txt = {
-	"151344471957569536":"FlexBot Developer",
-	"132297363233570816":"FlexBot Contributor",
-	"123601647258697730":"FlexBot Contributor",
-	"150745989836308480":"FlexBot Creator",
-	"94129005791281152":"FlexBot Contributor"
+	"151344471957569536":"yuno Developer",
+	"132297363233570816":"yuno Contributor",
+	"123601647258697730":"yuno Contributor",
+	"150745989836308480":"yuno Creator",
+	"94129005791281152":"yuno Contributor"
 }
 
-flexbot.addCommand("profile","See your level and credits", async function(msg,args){
+yuno.addCommand("profile","See your level and credits", async function(msg,args){
 	let u = msg.author;
 	if(args){
-		u = await flexbot.lookupUser(msg,args);
+		u = await yuno.lookupUser(msg,args);
 	}
 
 	let ud = udata[u.id] ? udata[u.id] : {credits:0,xp:0,totalxp:0,level:1,color:"0xFFFFFF",lastdaily:0,lvlnotif:false};
@@ -131,7 +131,7 @@ flexbot.addCommand("profile","See your level and credits", async function(msg,ar
 	});
 });
 
-flexbot.addCommand("pcolor","Set your profile color",function(msg,args){
+yuno.addCommand("pcolor","Set your profile color",function(msg,args){
 	if(!args){
 		msg.channel.createMessage("Your current color is **#"+udata[msg.author.id].color.replace("0x","")+"**")
 	}else{
@@ -146,7 +146,7 @@ flexbot.addCommand("pcolor","Set your profile color",function(msg,args){
 	}
 });
 
-let bg_url = "https://assets.xn--6s8h.cf/assets/flexbot/backgrounds/";
+let bg_url = "https://assets.xn--6s8h.cf/assets/yuno/backgrounds/";
 let backgrounds = [
 	"anime_1",
 	"anime_2",
@@ -186,12 +186,12 @@ let backgrounds = [
 	"tsumiki_1"
 	];
 
-if(!flexbot.reactionListeners){
-	flexbot.reactionListeners = [];
+if(!yuno.reactionListeners){
+	yuno.reactionListeners = [];
 }
 
-flexbot.addCommand("pbackground","Set your profile background",function(msg,args){
-	flexbot.awaitForMessage(msg,"Profile Background Menu\n```ini\n[1] Change Background\n[2] Buy Backgrounds\n\n[c] Cancel\n```",(m)=>{
+yuno.addCommand("pbackground","Set your profile background",function(msg,args){
+	yuno.awaitForMessage(msg,"Profile Background Menu\n```ini\n[1] Change Background\n[2] Buy Backgrounds\n\n[c] Cancel\n```",(m)=>{
 		if(m.content == "c"){
 			return msg.channel.createMessage("Canceled.");
 		}else if(m.content == 1){
@@ -205,7 +205,7 @@ flexbot.addCommand("pbackground","Set your profile background",function(msg,args
 					bgs.push("["+(i+1)+"] "+udata[msg.author.id].backgrounds[i]);
 				}
 
-				return flexbot.awaitForMessage(msg,"Equip Background\n```ini\nYour current background: "+(udata[msg.author.id].background ? udata[msg.author.id].background : "None")+"\n"+bgs.join("\n")+"\n\n[c] Cancel\n```",(m)=>{
+				return yuno.awaitForMessage(msg,"Equip Background\n```ini\nYour current background: "+(udata[msg.author.id].background ? udata[msg.author.id].background : "None")+"\n"+bgs.join("\n")+"\n\n[c] Cancel\n```",(m)=>{
 					let value = parseInt(m.content)
 					if(m.content == "c"){
 						return msg.channel.createMessage("Canceled.");
@@ -240,7 +240,7 @@ flexbot.addCommand("pbackground","Set your profile background",function(msg,args
 					m.addReaction(reactions[i]);
 				}
 
-				flexbot.reactionListeners[m.id] = function(message,emote,user){
+				yuno.reactionListeners[m.id] = function(message,emote,user){
 					if(message.id == m.id && user == msg.author.id){
 						if(emote.name == reactions[0]){
 							index--;
@@ -248,13 +248,13 @@ flexbot.addCommand("pbackground","Set your profile background",function(msg,args
 								index = backgrounds.length-1;
 
 								shop_msg.embed.image.url = bg_url+backgrounds[index]+".png";
-								flexbot.bot.removeMessageReaction(m.channel.id,m.id,reactions[0],user);
-								flexbot.bot.editMessage(m.channel.id,m.id,shop_msg);
+								yuno.bot.removeMessageReaction(m.channel.id,m.id,reactions[0],user);
+								yuno.bot.editMessage(m.channel.id,m.id,shop_msg);
 							}
 
 							shop_msg.embed.image.url = bg_url+backgrounds[index]+".png";
-							flexbot.bot.removeMessageReaction(m.channel.id,m.id,reactions[0],user);
-							flexbot.bot.editMessage(m.channel.id,m.id,shop_msg);
+							yuno.bot.removeMessageReaction(m.channel.id,m.id,reactions[0],user);
+							yuno.bot.editMessage(m.channel.id,m.id,shop_msg);
 						}
 						if(emote.name == reactions[1]){
 							index++;
@@ -262,13 +262,13 @@ flexbot.addCommand("pbackground","Set your profile background",function(msg,args
 								index = 0;
 
 								shop_msg.embed.image.url = bg_url+backgrounds[index]+".png";
-								flexbot.bot.removeMessageReaction(m.channel.id,m.id,reactions[1],user);
-								flexbot.bot.editMessage(m.channel.id,m.id,shop_msg);
+								yuno.bot.removeMessageReaction(m.channel.id,m.id,reactions[1],user);
+								yuno.bot.editMessage(m.channel.id,m.id,shop_msg);
 							}
 
 							shop_msg.embed.image.url = bg_url+backgrounds[index]+".png";
-							flexbot.bot.removeMessageReaction(m.channel.id,m.id,reactions[1],user);
-							flexbot.bot.editMessage(m.channel.id,m.id,shop_msg);
+							yuno.bot.removeMessageReaction(m.channel.id,m.id,reactions[1],user);
+							yuno.bot.editMessage(m.channel.id,m.id,shop_msg);
 						}
 						if(emote.name == reactions[2]){
 							m.delete();
@@ -289,7 +289,7 @@ flexbot.addCommand("pbackground","Set your profile background",function(msg,args
 								}
 
 								if(hasBG == false){
-									flexbot.awaitForMessage(msg,msg.author.mention+", you're about to buy background `"+backgrounds[index]+"` for **"+emoji.get("money_with_wings")+"1000**.\n\n\t- To complete the transaction, type `"+pin+"`.\n\t- To cancel, type `cancel`",(m)=>{
+									yuno.awaitForMessage(msg,msg.author.mention+", you're about to buy background `"+backgrounds[index]+"` for **"+emoji.get("money_with_wings")+"1000**.\n\n\t- To complete the transaction, type `"+pin+"`.\n\t- To cancel, type `cancel`",(m)=>{
 										if(m.content == "cancel"){
 											return msg.channel.createMessage("Transaction canceled.");
 										}else if(m.content == pin){
@@ -306,25 +306,25 @@ flexbot.addCommand("pbackground","Set your profile background",function(msg,args
 							}
 						}
 						if(emote.name == reactions[3]){
-							flexbot.bot.removeListener("messageReactionAdd",flexbot.reactionListeners[m.id]);
+							yuno.bot.removeListener("messageReactionAdd",yuno.reactionListeners[m.id]);
 							m.delete();
 						}
 					}
 
 				}
 
-				flexbot.bot.on("messageReactionAdd",flexbot.reactionListeners[m.id]);
+				yuno.bot.on("messageReactionAdd",yuno.reactionListeners[m.id]);
 			});
 		}
 	});
 });
 
-flexbot.addCommand("transfer","Send credits to someone",function(msg,args){
+yuno.addCommand("transfer","Send credits to someone",function(msg,args){
 	if(!args){
 		msg.channel.createMessage("No arguments passed. Usage: `f!transfer user amount`");
 	}else{
 		let a = args.split(" ");
-		flexbot.lookupUser(msg,a[0]).then(u=>{
+		yuno.lookupUser(msg,a[0]).then(u=>{
 			let amt = parseInt(a[1]);
 
 			if(!a[1]){
@@ -336,14 +336,14 @@ flexbot.addCommand("transfer","Send credits to someone",function(msg,args){
 			}else{
 				let pin = Math.floor(Math.random()*10)+""+Math.floor(Math.random()*10)+""+Math.floor(Math.random()*10)+""+Math.floor(Math.random()*10);
 
-				flexbot.awaitForMessage(msg,msg.author.mention+", you're about to send **"+emoji.get("money_with_wings")+amt+"** to **"+u.username+"#"+u.discriminator+"**.\n\n\t- To complete the transaction, type `"+pin+"`.\n\t- To cancel, type `cancel`",(m)=>{
+				yuno.awaitForMessage(msg,msg.author.mention+", you're about to send **"+emoji.get("money_with_wings")+amt+"** to **"+u.username+"#"+u.discriminator+"**.\n\n\t- To complete the transaction, type `"+pin+"`.\n\t- To cancel, type `cancel`",(m)=>{
 					if(m.content == "cancel"){
 						return msg.channel.createMessage("Canceled.");
 					}else if(m.content == pin){
 						udata[msg.author.id].credits = udata[msg.author.id].credits - amt;
 						udata[u.id].credits = udata[u.id].credits + amt;
 
-						flexbot.bot.getDMChannel(u.id)
+						yuno.bot.getDMChannel(u.id)
 						.then(c=>{
 							c.createMessage("Hey, **"+msg.author.username+"#"+msg.author.discriminator+"** just sent you **"+emoji.get("money_with_wings")+amt+"**.");
 						});
@@ -356,14 +356,14 @@ flexbot.addCommand("transfer","Send credits to someone",function(msg,args){
 	}
 });
 
-flexbot.addCommand("daily","Get your daily credits",function(msg,args){
+yuno.addCommand("daily","Get your daily credits",function(msg,args){
 	let timestamp = new Date().getTime();
 	let u = udata[msg.author.id];
 	u.lastdaily = u.lastdaily ? u.lastdaily : 0;
 
 	if(timestamp >= u.lastdaily){
 		if(args){
-			flexbot.lookupUser(msg,args)
+			yuno.lookupUser(msg,args)
 			.then(user=>{
 				let amt = 250+Math.floor(Math.random()*150);
 				msg.channel.createMessage("**"+msg.author.username+"#"+msg.author.discriminator+"** has given **"+user.username+"#"+user.discriminator+"** **"+emoji.get("money_with_wings")+amt+"** daily credits.");
@@ -398,7 +398,7 @@ flexbot.addCommand("daily","Get your daily credits",function(msg,args){
 	}
 });
 
-flexbot.addCommand("levelnotifs","Toggles level up notifications.",function(msg,args){
+yuno.addCommand("levelnotifs","Toggles level up notifications.",function(msg,args){
 	udata[msg.author.id].lvlnotif = !udata[msg.author.id].lvlnotif;
 	msg.channel.createMessage("Level up notifications is now set to `"+udata[msg.author.id].lvlnotif+"`");
 });
