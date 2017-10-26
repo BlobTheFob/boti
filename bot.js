@@ -29,6 +29,60 @@ bot.on("ready", () => {
 		})
 	bot.createMessage(logid,emoji.get(":white_check_mark:")+" Loaded Yuno")*/
 });
+
+const config = require('../config.json');
+
+module.exports = (msg, bot) => {
+  const opts = {
+    command: msg.content.split(' ')[0].replace(config.prefixRegex, '').trim(),
+    arguments: msg.content.split(' ').slice(1)
+  };
+
+  if (!opts.command) {
+    return;
+  }
+
+  let conf = bot;
+  if (msg.guild) conf = bot.config[msg.guild.id];
+
+  let module;
+  if (bot.commands.has(opts.command) || conf.commands.has(opts.command)) {
+    module = require(`../modules/${opts.command}.js`);
+  } else if (bot.aliases.hasOwnProperty(opts.command)) {
+    module = require(`../modules/${bot.aliases[opts.command]}.js`);
+  } else if (conf.aliases.hasOwnProperty(opts.command)) {
+    module = require(`../modules/${conf.aliases[opts.command]}.js`);
+  }
+
+  if (module) {
+    conf = module.config;
+    if (msg.guild) {
+      if (bot.config[msg.guild.id][opts.command]) {
+        conf = bot.config[msg.guild.id][opts.command];
+      } else if(bot.config[msg.guild.id].aliases.hasOwnProperty(opts.command)) {
+        let alias = bot.config[msg.guild.id].aliases[opts.command];
+        conf = bot.config[msg.guild.id][alias];
+      }
+    }
+    // If module not enabled, return
+    // TODO: Add Check here to see if it is enabled in DB
+    // TODO: Maybe this is deprecated completely, as there's per-server configuration?
+    if (!conf.enabled) {
+      msg.author.send('ðŸš« Module not enabled.');
+      return;
+    }
+
+    let localModule = new module.module(msg, module.config); // eslint-disable-line
+
+    if (!localModule.hasPermission()) {
+      msg.author.send("ðŸš« You don't have permissions.");
+      return;
+    }
+
+    localModule.run(msg, opts.arguments, bot).catch(console.log);
+  }
+};
+
 function isOwner(msg){
 	return msg.author.id == config.ownerid || whitelist[msg.author.id] == true
 }
