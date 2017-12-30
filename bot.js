@@ -30,8 +30,6 @@ bot.on("ready", () => {
 	bot.createMessage(logid,emoji.get(":white_check_mark:")+" Loaded Yuno")*/
 });
 
-const config = require('../config.json');
-
 module.exports = (msg, bot) => {
   const opts = {
     command: msg.content.split(' ')[0].replace(config.prefixRegex, '').trim(),
